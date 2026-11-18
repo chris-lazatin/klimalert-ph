@@ -27,6 +27,10 @@ export const metadata: Metadata = {
     "climate action",
   ],
   authors: [{ name: "Christopher V. Lazatin" }],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 }
 
 export const viewport: Viewport = {
