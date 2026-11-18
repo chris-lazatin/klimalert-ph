@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Settings, ShieldAlert, LogOut } from "lucide-react"
+import { Settings, LogOut } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/lib/auth-context"
 import { NAV_BY_ROLE, ROLE_LABEL } from "@/lib/roles"
 import type { AuthRole } from "@/lib/api"
+import Image from "next/image"
 
 const BADGE_TONE: Record<NonNullable<ReturnType<() => "amber" | "emerald" | "zinc">>, string> = {
   amber: "bg-amber-500/15 text-amber-300 border-amber-500/30",
@@ -25,9 +26,7 @@ export function DashboardSidebar() {
   return (
     <aside className="hidden lg:flex w-[260px] shrink-0 flex-col border-r border-zinc-900 bg-zinc-950 sticky top-0 h-screen">
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-zinc-900">
-        <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-          <ShieldAlert className="h-4 w-4 text-zinc-950" strokeWidth={2.5} />
-        </span>
+        <Image src="/logo.png" alt="KlimAlert PH" width={32} height={32} className="h-8 w-8 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.35)]" />
         <div className="min-w-0">
           <p className="font-display text-sm font-semibold tracking-tight text-zinc-100 leading-none">
             KlimAlert<span className="text-emerald-400"> PH</span>

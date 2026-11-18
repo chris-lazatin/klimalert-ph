@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { Menu, X, ShieldAlert } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -35,8 +36,8 @@ export function Navbar() {
       >
         {/* Brand */}
         <Link href="/" className="flex items-center gap-2.5 pl-3 group">
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-            <ShieldAlert className="h-4 w-4 text-zinc-950" strokeWidth={2.5} />
+          <span className="relative flex h-8 w-8 items-center justify-center">
+            <Image src="/logo.png" alt="KlimAlert PH" width={32} height={32} className="h-8 w-8 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.35)]" />
             <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400 ring-2 ring-zinc-950" />

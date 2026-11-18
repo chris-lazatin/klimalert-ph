@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import Link from "next/link"
-import { ShieldAlert, Radio, MapPin, Users } from "lucide-react"
+import { Radio, MapPin, Users } from "lucide-react"
+import Image from "next/image"
 
 type Highlight = {
   icon: typeof Radio
@@ -57,8 +58,8 @@ export function AuthShell({
 
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-[0_0_24px_rgba(16,185,129,0.45)]">
-              <ShieldAlert className="h-4 w-4 text-zinc-950" strokeWidth={2.6} />
+            <span className="relative flex h-9 w-9 items-center justify-center">
+              <Image src="/logo.png" alt="KlimAlert PH" width={36} height={36} className="h-9 w-9 rounded-lg shadow-[0_0_24px_rgba(16,185,129,0.45)]" />
               <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-amber-400 ring-2 ring-zinc-950" />
@@ -113,9 +114,7 @@ export function AuthShell({
         {/* Mobile brand */}
         <div className="absolute top-6 left-1/2 -translate-x-1/2 lg:hidden">
           <Link href="/" className="inline-flex items-center gap-2">
-            <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-emerald-600">
-              <ShieldAlert className="h-4 w-4 text-zinc-950" strokeWidth={2.6} />
-            </span>
+            <Image src="/logo.png" alt="KlimAlert PH" width={32} height={32} className="h-8 w-8 rounded-lg" />
             <span className="font-display text-sm font-semibold tracking-tight text-zinc-100">
               KlimAlert<span className="text-emerald-400"> PH</span>
             </span>

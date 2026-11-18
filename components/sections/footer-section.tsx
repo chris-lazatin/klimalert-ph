@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Github, Facebook, Mail, ShieldAlert } from "lucide-react"
+import { Github, Facebook, Mail } from "lucide-react"
+import Image from "next/image"
 
 const footerLinks = {
   product: [
@@ -29,9 +30,7 @@ export function FooterSection() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2.5">
-              <span className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-linear-to-br from-emerald-400 to-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.35)]">
-                <ShieldAlert className="h-4 w-4 text-zinc-950" strokeWidth={2.5} />
-              </span>
+              <Image src="/logo.png" alt="KlimAlert PH" width={36} height={36} className="h-9 w-9 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.35)]" />
               <span className="font-display text-lg font-semibold text-zinc-100 tracking-tight">
                 KlimAlert<span className="text-emerald-400"> PH</span>
               </span>
