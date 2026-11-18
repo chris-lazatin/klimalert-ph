@@ -205,3 +205,10 @@ html:not(.dark) ::selection {
   background: rgba(16, 185, 129, 0.25);
   color: #064e3b;
 }
+
+/* Light mode: darken teal so gradients stay readable */
+html:not(.dark) {
+  --color-teal-200: oklch(0.437 0.078 188.216);
+  --color-teal-300: oklch(0.511 0.096 186.391);
+  --color-teal-400: oklch(0.6 0.118 184.704);
+}
