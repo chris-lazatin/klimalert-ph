@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -63,6 +64,7 @@ export function Navbar() {
 
         {/* Desktop Auth */}
         <div className="hidden md:flex items-center gap-2">
+          <ThemeToggle className="rounded-full" />
           <Link
             href="/login"
             className="px-4 py-1.5 text-sm rounded-full text-zinc-300 hover:text-zinc-100 transition-colors"
@@ -77,15 +79,18 @@ export function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          aria-label="Toggle menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden flex items-center justify-center h-10 w-10 rounded-full text-zinc-300 hover:bg-zinc-800/60 transition-colors"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile toggle + menu */}
+        <div className="md:hidden flex items-center gap-1">
+          <ThemeToggle className="rounded-full h-10 w-10" />
+          <button
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="flex items-center justify-center h-10 w-10 rounded-full text-zinc-300 hover:bg-zinc-800/60 transition-colors"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile dropdown */}

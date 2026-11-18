@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css"
 import { useMemo, useState, useEffect, useCallback } from "react"
 import L from "leaflet"
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, Polyline, useMap } from "react-leaflet"
+import { useTheme } from "next-themes"
 import { type EvacuationCenter, getAvailableCenters, STATUS_META } from "@/lib/evacuation-centers"
 
 // Build a custom HTML pin so we don't depend on Leaflet's default image assets.
@@ -54,6 +55,9 @@ export function EvacuationMap({
   const [locationError, setLocationError] = useState<string | null>(null)
   const [route, setRoute] = useState<RouteInfo | null>(null)
   const [routeLoading, setRouteLoading] = useState(false)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme !== "light"
+  
 
   // Olongapo City center
   const center: [number, number] = [14.8386, 120.2842]
@@ -129,12 +133,13 @@ export function EvacuationMap({
         zoom={14}
         scrollWheelZoom
         className="h-full w-full rounded-2xl overflow-hidden"
-        style={{ background: "#09090b" }}
+        style={{ background: isDark ? "#09090b" : "#e4e4e7" }}
       >
         <TileLayer
+          key={isDark ? "dark" : "light"}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url={`https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
-        />      
+          url={`https://basemaps.cartocdn.com/rastertiles/${isDark ? "dark_all" : "light_all"}/{z}/{x}/{y}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
+        />    
 
         <MapFlyTo target={flyTarget} />
 

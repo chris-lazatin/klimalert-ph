@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { Manrope } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LenisProvider } from "@/components/providers/lenis-provider"
+import { ThemeProvider } from "@/components/theme-provider"
 import "./globals.css"
 
 const manrope = Manrope({
@@ -45,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark bg-zinc-950">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Instrument+Sans:wght@400;500;600;700&display=swap"
@@ -53,9 +54,16 @@ export default function RootLayout({
         />
       </head>
       <body className={`${manrope.variable} font-sans antialiased bg-zinc-950 text-zinc-100`}>
-        <LenisProvider>
-          {children}
-        </LenisProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          storageKey="klimalert-theme"
+        >
+          <LenisProvider>
+            {children}
+          </LenisProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

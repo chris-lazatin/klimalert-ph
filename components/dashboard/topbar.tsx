@@ -19,6 +19,7 @@ import { useNotifications, NOTIFICATION_TONE, formatRelative } from "@/lib/notif
 import { GlobalSearch } from "@/components/dashboard/global-search"
 import { RoleSwitcher } from "@/components/dashboard/role-switcher"
 import { ROLE_LABEL } from "@/lib/roles"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 export function DashboardTopbar() {
   const { user, isDemo, signOut } = useAuth()
@@ -72,6 +73,7 @@ export function DashboardTopbar() {
 
       <div className="flex items-center gap-2 ml-auto">
         <RoleSwitcher />
+        <ThemeToggle />
 
         {/* Notifications */}
         <div ref={bellRef} className="relative">
