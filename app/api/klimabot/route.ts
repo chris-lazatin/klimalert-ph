@@ -1,5 +1,12 @@
+import { google } from "@ai-sdk/google"
 import { xai } from "@ai-sdk/xai"
-import { generateText } from "ai"
+import {
+  convertToModelMessages,
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  generateText,
+  type UIMessage,
+} from "ai"
 
 export const maxDuration = 30
 
@@ -27,30 +34,58 @@ RULES
 - Do not provide medical diagnoses.
 - Use Philippine units (kph, mm of rain, °C) and local terms (bagyo, baha, lindol, go-bag).`
 
+// Tried in order. If one fails (bad key, quota, retired model), the next one is used.
+// To change models later, only edit this list.
+const MODELS = [
+  { label: "gemini-2.5-flash-lite", model: () => google("gemini-2.5-flash-lite") },
+  { label: "gemini-3.5-flash-lite", model: () => google("gemini-3.5-flash-lite") },
+  { label: "grok-4.3", model: () => xai("grok-4.3") },
+]
+
 export async function POST(req: Request) {
+  let messages: UIMessage[]
   try {
-    const { messages } = await req.json()
+    const body = await req.json()
+    messages = body.messages
+  } catch {
+    return new Response("Invalid request", { status: 400 })
+  }
 
-    // Get the last user message as plain text
-    const lastMessage = messages.filter((m: any) => m.role === "user").pop()
-    const userText = typeof lastMessage?.content === "string"
-      ? lastMessage.content
-      : lastMessage?.content?.[0]?.text ?? "Hello"
+  const modelMessages = await convertToModelMessages(messages)
 
-    const { text } = await generateText({
-      model: xai("grok-2-1212"),
-      system: SYSTEM_PROMPT,
-      prompt: userText,
-    })
+  let text: string | null = null
+  for (const { label, model } of MODELS) {
+    try {
+      const result = await generateText({
+        model: model(),
+        system: SYSTEM_PROMPT,
+        messages: modelMessages,
+        maxOutputTokens: 800,
+      })
+      if (result.text.trim()) {
+        text = result.text
+        break
+      }
+    } catch (err: any) {
+      // Shows up in Vercel > Deployment > Logs, so you can see exactly which model failed and why
+      console.error(`[KlimaBot] ${label} failed:`, err?.message ?? err)
+    }
+  }
 
-    return new Response(JSON.stringify({ text }), {
-      headers: { "Content-Type": "application/json" },
-    })
-  } catch (err: any) {
-    console.log("[KlimaBot] Error:", err?.message)
+  if (!text) {
     return new Response(
       JSON.stringify({ error: "KlimaBot is taking a quick break. Please try again." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 503, headers: { "Content-Type": "application/json" } }
     )
   }
+
+  const id = crypto.randomUUID()
+  const stream = createUIMessageStream({
+    execute: ({ writer }) => {
+      writer.write({ type: "text-start", id })
+      writer.write({ type: "text-delta", id, delta: text! })
+      writer.write({ type: "text-end", id })
+    },
+  })
+  return createUIMessageStreamResponse({ stream })
 }
