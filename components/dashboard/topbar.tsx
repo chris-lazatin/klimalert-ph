@@ -20,6 +20,7 @@ import { GlobalSearch } from "@/components/dashboard/global-search"
 import { RoleSwitcher } from "@/components/dashboard/role-switcher"
 import { ROLE_LABEL } from "@/lib/roles"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { MobileNav } from "@/components/dashboard/mobile-nav"
 
 export function DashboardTopbar() {
   const { user, isDemo, signOut } = useAuth()
@@ -56,6 +57,7 @@ export function DashboardTopbar() {
 
   return (
     <header className="sticky top-0 z-30 h-16 px-5 lg:px-7 flex items-center gap-4 border-b border-zinc-900 bg-zinc-950/80 backdrop-blur-xl">
+      <MobileNav />
       <div className="flex items-center gap-2 text-xs text-zinc-400">
         <MapPin className="h-3.5 w-3.5 text-emerald-400" />
         <span>
